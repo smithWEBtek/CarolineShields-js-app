@@ -2,11 +2,20 @@ class PlayersController < ApplicationController
 before_action :sign_in_user, only: [:index, :show, :edit, :update, :destroy]
 before_action :find_user, only: [:edit, :update, :destroy]
 
+	def new_player
+		@player = Player.new
+		render partial: 'players/new_player'
+	end
 
   def index
     @players = Player.all
     @over_18 = Player.over_18
-    @under_18 = Player.under_18
+		@under_18 = Player.under_18
+		
+		respond_to do |f|
+			f.html {render :index}
+			f.json {render json: @players}
+		end
   end
 
   def new
